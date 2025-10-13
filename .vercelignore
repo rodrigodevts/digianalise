@@ -1,0 +1,16 @@
+# Scripts de processamento (não necessários para produção)
+scripts/
+data/
+*.md
+README.md
+TODO.md
+claude.md
+
+# Arquivos de desenvolvimento
+.env.example
+.env.production
+tsconfig.tsbuildinfo
+
+# Cache e temporários
+.next/cache/
+node_modules/.cache/
