@@ -1,0 +1,168 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Representa uma conversa completa entre cidadão e sistema
+model Conversation {
+  id            String                 @id @default(uuid())
+  ticketId      String                 @unique // ID do atendimento no sistema de origem
+  phoneNumber   String                 // Número anonimizado (****-6758)
+  startedAt     DateTime
+  endedAt       DateTime?
+  duration      Int                    @default(0) // em segundos
+  messageCount  Int                    @default(0)
+  status        String                 @default("active")
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+
+  messages      Message[]
+  analysis      ConversationAnalysis?
+
+  @@index([ticketId])
+  @@index([phoneNumber])
+}
+
+// Mensagens individuais dentro de uma conversa
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  externalId     String       // ID original da mensagem no JSON
+  messageId      String?      // wamid ou uuid do WhatsApp
+  sender         String       // "user" | "bot" | "agent"
+  content        String       // body da mensagem
+  mediaType      String       // chat, button_reply, list_reply, image, document, audio
+  timestamp      DateTime     // timestamp convertido
+  fromMe         Boolean      // true = bot/atendente, false = cidadão
+  sendType       String?      // "bot" ou null
+  userId         Int?         // ID do atendente humano se houver
+  createdAt      DateTime     @default(now())
+
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([externalId])
+}
+
+// Análise completa feita pela IA sobre a conversa
+model ConversationAnalysis {
+  id                    String       @id @default(uuid())
+  conversationId        String       @unique
+  
+  // Classificações principais
+  primaryService        String       // IPTU, Certidão, Dívida Ativa, Alvará, etc.
+  secondaryServices     String       // JSON array de outros serviços mencionados
+  
+  // Sentimento e perfil
+  sentiment             String       // positivo, neutro, negativo, frustrado
+  userProfile           String       // urgente, confuso, revoltado, tranquilo
+  frustrationLevel      Int          // 0-10
+  
+  // Análise de conteúdo
+  keyPhrases            String       // JSON array de frases-chave
+  userIntent            String       // informação, ação, reclamação, etc.
+  
+  // Resolução
+  wasResolved           Boolean
+  resolutionStage       String?      // etapa onde houve resolução
+  abandonmentReason     String?      // motivo do abandono, se houver
+  
+  // Oportunidades e recomendações
+  opportunities         String       // JSON array de oportunidades identificadas
+  recommendations       String       // JSON array de recomendações
+  
+  // Análise de funil
+  funnelStage           String       // inicio, explicacao, solicitacao, processamento, conclusao
+  dropoffPoint          String?      // onde o usuário abandonou
+  
+  // Timestamps
+  analyzedAt            DateTime     @default(now())
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+  
+  conversation          Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
+
+// Métricas agregadas pré-calculadas por serviço
+model ServiceMetrics {
+  id                    String   @id @default(uuid())
+  service               String   
+  date                  DateTime
+  
+  // Totais
+  totalConversations    Int      @default(0)
+  resolvedConversations Int      @default(0)
+  abandonedConversations Int     @default(0)
+  
+  // Crescimento
+  growthRate            Float    @default(0)
+  previousPeriodTotal   Int      @default(0)
+  
+  // Satisfação
+  averageSatisfaction   Float    @default(0)
+  positiveCount         Int      @default(0)
+  neutralCount          Int      @default(0)
+  negativeCount         Int      @default(0)
+  frustratedCount       Int      @default(0)
+  
+  // Top perguntas e problemas
+  topQuestions          String   // JSON array
+  topProblems           String   // JSON array
+  topOpportunities      String   // JSON array
+  
+  // Perfis de usuário
+  userProfiles          String   // JSON object com contagem por perfil
+  
+  // Funil
+  funnelMetrics         String   // JSON object com métricas por etapa
+  
+  // Economia
+  economicImpact        Float    @default(0)
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([service, date])
+  @@index([service, date])
+}
+
+// Alertas automáticos gerados pelo sistema
+model Alert {
+  id                String   @id @default(uuid())
+  
+  // Classificação
+  severity          String   // critical, urgent, monitor
+  type              String   // frustration, churn_risk, system_error, high_abandonment, opportunity
+  status            String   @default("active") // active, acknowledged, resolved
+  
+  // Contexto
+  conversationId    String?
+  service           String?
+  
+  // Conteúdo
+  title             String
+  description       String
+  recommendation    String
+  
+  // Métricas relacionadas
+  affectedCount     Int      @default(1)
+  impactScore       Float    @default(0)
+  
+  // Timestamps
+  detectedAt        DateTime @default(now())
+  acknowledgedAt    DateTime?
+  resolvedAt        DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([severity, status])
+  @@index([type])
+  @@index([service])
+}

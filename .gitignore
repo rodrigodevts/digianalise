@@ -1,0 +1,91 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Production
+/build
+/dist
+
+# Miscellaneous
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+.env
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+prisma/dev.db
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+.tmp/
+temp/
+tmp/
+
+# Package managers
+package-lock.json
+yarn.lock
+
+# Cache directories
+.cache/
+.parcel-cache/
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Custom data files
+data/backup/
+data/exports/
+scripts/processed/
