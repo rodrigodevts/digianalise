@@ -12,11 +12,27 @@ export async function GET() {
     await prisma.$connect()
     console.log('Conexão com MongoDB estabelecida')
     
+    // Testar comando básico primeiro
+    try {
+      const pingResult = await prisma.$runCommandRaw({ ping: 1 })
+      console.log('Ping MongoDB:', pingResult)
+    } catch (pingError) {
+      console.log('Erro no ping:', pingError)
+      // Continua mesmo com erro de ping
+    }
+    
     // MongoDB não precisa de criação de tabelas (coleções são criadas automaticamente)
     
-    // Verificar se há dados
-    const metrics = await prisma.serviceMetrics.count()
-    console.log(`Métricas existentes: ${metrics}`)
+    // Verificar se há dados - com tratamento de erro mais específico
+    let metrics = 0
+    try {
+      metrics = await prisma.serviceMetrics.count()
+      console.log(`Métricas existentes: ${metrics}`)
+    } catch (countError) {
+      console.log('Erro ao contar métricas, tentando criar primeira coleção:', countError)
+      // Se count falha, a coleção não existe, então metrics = 0
+      metrics = 0
+    }
     
     // Se não há dados, criar dados de exemplo
     if (metrics === 0) {
