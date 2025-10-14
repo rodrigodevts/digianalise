@@ -15,7 +15,6 @@ GEMINI_MODEL="gemini-2.0-flash-lite"
 
 # Application
 NODE_ENV="production"
-NEXT_PUBLIC_APP_URL="https://seu-dominio.vercel.app"
 
 # Performance
 BATCH_SIZE=200
@@ -101,6 +100,11 @@ vercel logs [deployment-url]
 
 ## 🚨 Troubleshooting
 
+### **Erro: "Erro interno do servidor"**
+1. **Verificar health check**: `GET /api/health`
+2. **Inicializar banco**: `GET /api/init` 
+3. **Verificar logs**: `vercel logs [deployment-url]`
+
 ### **Erro: PrismaClient not found**
 - Certifique-se que `postinstall` está configurado
 - Execute `pnpm prisma:generate` manualmente
@@ -109,11 +113,24 @@ vercel logs [deployment-url]
 - Verifique DATABASE_URL na Vercel
 - Teste conexão com banco PostgreSQL
 - Confirme que IP da Vercel está liberado
+- **Para PostgreSQL**: Use `/api/init` para criar tabelas
 
 ### **Erro: Build timeout**
 - Aumente timeout das funções na Vercel
 - Otimize queries do Prisma
 - Verifique memória disponível
+
+### **Primeiro Deploy - Passos Obrigatórios**
+```bash
+# 1. Após deploy, inicializar banco:
+curl https://seu-app.vercel.app/api/init
+
+# 2. Verificar saúde:
+curl https://seu-app.vercel.app/api/health
+
+# 3. Testar APIs:
+curl https://seu-app.vercel.app/api/metrics
+```
 
 ## 📊 Monitoramento
 

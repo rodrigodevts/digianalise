@@ -113,7 +113,6 @@ GEMINI_MODEL="gemini-2.0-flash-exp"
 
 # Application
 NODE_ENV="development"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
 ```
 
 ## 📈 Funcionalidades

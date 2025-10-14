@@ -6,6 +6,9 @@ export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request) {
   try {
+    // Verificar conexão com banco
+    await prisma.$connect()
+    console.log('Buscando alertas...')
     const { searchParams } = new URL(request.url)
     const status = searchParams.get('status') || 'active'
     const severity = searchParams.get('severity')

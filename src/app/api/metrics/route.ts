@@ -6,12 +6,17 @@ export const dynamic = 'force-dynamic'
 
 export async function GET() {
   try {
+    // Verificar conexão com banco
+    await prisma.$connect()
+    
     // Buscar todas as métricas agregadas
     const metrics = await prisma.serviceMetrics.findMany({
       orderBy: {
         totalConversations: 'desc'
       }
     })
+    
+    console.log(`Métricas encontradas: ${metrics.length} registros`)
 
     // Calcular totais gerais
     const totals = {
@@ -52,9 +57,19 @@ export async function GET() {
       }
     })
   } catch (error) {
-    console.error('Erro ao buscar métricas:', error)
+    console.error('Erro detalhado ao buscar métricas:', {
+      message: error instanceof Error ? error.message : 'Erro desconhecido',
+      stack: error instanceof Error ? error.stack : undefined,
+      type: typeof error,
+      error: error
+    })
+    
     return NextResponse.json(
-      { success: false, error: 'Erro interno do servidor' },
+      { 
+        success: false, 
+        error: 'Erro interno do servidor',
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
+      },
       { status: 500 }
     )
   }
