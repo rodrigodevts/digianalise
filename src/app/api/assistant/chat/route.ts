@@ -121,7 +121,11 @@ async function getMetricsContext() {
   }
 }
 
-function buildAssistantPrompt(userMessage: string, context: any, wantsRecommendations: boolean = false): string {
+function buildAssistantPrompt(
+  userMessage: string,
+  context: any,
+  wantsRecommendations: boolean = false
+): string {
   return `Você é um assistente especializado em análise de dados para tomada de decisão na SEFIN (Secretaria de Finanças) de Vitória da Conquista.
 
 CONTEXTO ATUAL DOS DADOS:
@@ -177,6 +181,10 @@ ${
 
 PERGUNTA DO USUÁRIO: ${userMessage}
 
+EXEMPLO DE RESPOSTA BOA:
+Pergunta: "O que está causando frustração nos usuários?"
+Resposta: "A principal causa da frustração é a alta taxa de abandono (91,67%) nos serviços IPTU e Certidão Negativa, onde os usuários não conseguem concluir o atendimento. Gostaria de recomendações específicas para resolver isso?"
+
 INSTRUÇÕES:
 1. RESPONDA APENAS O QUE FOI PERGUNTADO - seja direto e específico
 2. Use os dados fornecidos para responder com precisão 
@@ -186,15 +194,19 @@ INSTRUÇÕES:
 6. Se não houver dados suficientes, informe que precisa de mais informações
 
 IMPORTANTE: 
-- Responda SOMENTE a pergunta feita
-- NÃO adicione informações extras, problemas gerais ou contexto não solicitado
 ${wantsRecommendations ? 
-  '- O usuário QUER recomendações: forneça sugestões específicas e acionáveis para resolver o problema identificado' : 
-  '- AO FINAL da resposta, pergunte: "Gostaria de recomendações e ações imediatas sobre este tópico?"'
+  `- O usuário CONFIRMOU que quer recomendações sobre o tópico anterior
+- Forneça APENAS 3-5 ações específicas e práticas para resolver o problema
+- Use formato de lista numerada
+- Seja direto e acionável
+- NÃO repita a análise do problema` : 
+  `- Responda SOMENTE a pergunta feita de forma direta
+- Identifique especificamente o que está causando o problema mencionado
+- Seja conciso (máximo 2-3 frases)
+- AO FINAL, pergunte: "Gostaria de recomendações específicas para resolver isso?"`
 }
-- Seja conciso e direto
 
-Responda exclusivamente a pergunta do usuário de forma objetiva.`;
+Responda de forma objetiva e prática.`;
 }
 
 export async function POST(request: NextRequest) {
@@ -239,8 +251,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Detectar se o usuário quer recomendações
-    const wantsRecommendations = /\b(sim|yes|quero|gostaria|recomenda|sugest|ação|melhor)/i.test(message.toLowerCase())
+    // Detectar se o usuário quer recomendações - mais específico
+    const wantsRecommendations = 
+      (/\b(sim|yes)\b/i.test(message.toLowerCase()) && message.length < 20) ||
+      /\b(quero|gostaria|pode|podem)\s+(recomenda|sugest|ação|ajuda)/i.test(message.toLowerCase()) ||
+      /\b(como\s+(resolver|melhorar|corrigir))/i.test(message.toLowerCase());
 
     // Buscar contexto dos dados
     const context = await getMetricsContext();
