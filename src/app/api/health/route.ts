@@ -10,20 +10,19 @@ export async function GET() {
     const start = Date.now()
     await prisma.$connect()
     
-    // Teste simples de query
-    const result = await prisma.$queryRaw`SELECT 1 as test`
+    // Teste simples de conexão (MongoDB não precisa de $queryRaw)
     const dbTime = Date.now() - start
     
-    // Verificar se tabelas existem
-    let tables: any[] = []
+    // Verificar se coleções existem (usando contagem simples)
+    let collectionCount = 0
     try {
-      if (process.env.DATABASE_URL?.includes('postgresql')) {
-        tables = await prisma.$queryRaw`SELECT tablename as name FROM pg_tables WHERE schemaname='public'`
-      } else {
-        tables = await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table'`
-      }
-    } catch (tableError) {
-      console.log('Erro ao consultar tabelas:', tableError)
+      // Tentar contar registros das coleções principais
+      await prisma.conversation.count()
+      await prisma.serviceMetrics.count()
+      collectionCount = 2 // Se chegou até aqui, pelo menos 2 coleções existem
+    } catch (collectionError) {
+      console.log('Coleções ainda não existem:', collectionError)
+      collectionCount = 0
     }
     
     return NextResponse.json({
@@ -33,12 +32,12 @@ export async function GET() {
         database: {
           connected: true,
           responseTime: `${dbTime}ms`,
-          tables: Array.isArray(tables) ? tables.length : 0
+          collections: collectionCount
         },
         environment: {
           nodeEnv: process.env.NODE_ENV,
           hasGeminiKey: !!process.env.GEMINI_API_KEY,
-          databaseUrl: process.env.DATABASE_URL?.includes('postgresql') ? 'PostgreSQL' : 'SQLite'
+          databaseUrl: process.env.DATABASE_URL?.includes('mongodb') ? 'MongoDB' : 'SQLite'
         },
         timestamp: new Date().toISOString()
       }
@@ -55,7 +54,7 @@ export async function GET() {
           environment: {
             nodeEnv: process.env.NODE_ENV,
             hasGeminiKey: !!process.env.GEMINI_API_KEY,
-            databaseUrl: process.env.DATABASE_URL?.includes('postgresql') ? 'PostgreSQL' : 'SQLite'
+            databaseUrl: process.env.DATABASE_URL?.includes('mongodb') ? 'MongoDB' : 'SQLite'
           },
           timestamp: new Date().toISOString()
         }

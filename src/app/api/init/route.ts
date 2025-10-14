@@ -10,70 +10,13 @@ export async function GET() {
     
     // Verificar conexão
     await prisma.$connect()
-    console.log('Conexão com banco estabelecida')
+    console.log('Conexão com MongoDB estabelecida')
     
-    // Aplicar migrações/push do schema
-    try {
-      // Para Turso/PostgreSQL em produção, usar migrate
-      if (process.env.DATABASE_URL?.includes('postgresql') || process.env.DATABASE_URL?.startsWith('libsql://')) {
-        console.log('Detectado Turso/PostgreSQL, aplicando schema...')
-        console.log('Aplicando schema para banco remoto...')
-        
-        // Criar tabelas diretamente no banco
-        await prisma.$executeRaw`
-            CREATE TABLE IF NOT EXISTS "Conversation" (
-              "id" TEXT NOT NULL PRIMARY KEY,
-              "ticketId" TEXT NOT NULL UNIQUE,
-              "phoneNumber" TEXT NOT NULL,
-              "startedAt" DATETIME NOT NULL,
-              "endedAt" DATETIME,
-              "duration" INTEGER NOT NULL DEFAULT 0,
-              "messageCount" INTEGER NOT NULL DEFAULT 0,
-              "status" TEXT NOT NULL DEFAULT 'active',
-              "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-            );
-        `
-          
-        await prisma.$executeRaw`
-            CREATE TABLE IF NOT EXISTS "ServiceMetrics" (
-              "id" TEXT NOT NULL PRIMARY KEY,
-              "service" TEXT NOT NULL,
-              "date" DATETIME NOT NULL,
-              "totalConversations" INTEGER NOT NULL DEFAULT 0,
-              "resolvedConversations" INTEGER NOT NULL DEFAULT 0,
-              "abandonedConversations" INTEGER NOT NULL DEFAULT 0,
-              "growthRate" REAL NOT NULL DEFAULT 0,
-              "previousPeriodTotal" INTEGER NOT NULL DEFAULT 0,
-              "averageSatisfaction" REAL NOT NULL DEFAULT 0,
-              "positiveCount" INTEGER NOT NULL DEFAULT 0,
-              "neutralCount" INTEGER NOT NULL DEFAULT 0,
-              "negativeCount" INTEGER NOT NULL DEFAULT 0,
-              "frustratedCount" INTEGER NOT NULL DEFAULT 0,
-              "topQuestions" TEXT,
-              "topProblems" TEXT,
-              "topOpportunities" TEXT,
-              "userProfiles" TEXT,
-              "funnelMetrics" TEXT,
-              "economicImpact" REAL NOT NULL DEFAULT 0,
-              "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              UNIQUE("service", "date")
-            );
-        `
-      } else {
-        // Para SQLite, usar db push
-        console.log('Usando SQLite, schema já aplicado')
-      }
-    } catch (schemaError) {
-      console.log('Schema já existe ou erro ao criar:', schemaError)
-    }
+    // MongoDB não precisa de criação de tabelas (coleções são criadas automaticamente)
     
-    // Verificar se tabelas existem
-    const conversations = await prisma.conversation.count()
+    // Verificar se há dados
     const metrics = await prisma.serviceMetrics.count()
-    
-    console.log(`Tabelas verificadas - Conversas: ${conversations}, Métricas: ${metrics}`)
+    console.log(`Métricas existentes: ${metrics}`)
     
     // Se não há dados, criar dados de exemplo
     if (metrics === 0) {
@@ -82,7 +25,6 @@ export async function GET() {
       await prisma.serviceMetrics.createMany({
         data: [
           {
-            id: '1',
             service: 'IPTU',
             date: new Date(),
             totalConversations: 150,
@@ -91,6 +33,7 @@ export async function GET() {
             averageSatisfaction: 4.2,
             economicImpact: 25000,
             growthRate: 15.5,
+            previousPeriodTotal: 130,
             positiveCount: 95,
             neutralCount: 35,
             negativeCount: 15,
@@ -123,7 +66,6 @@ export async function GET() {
             })
           },
           {
-            id: '2',
             service: 'CERTIDAO_NEGATIVA',
             date: new Date(),
             totalConversations: 89,
@@ -132,6 +74,7 @@ export async function GET() {
             averageSatisfaction: 4.0,
             economicImpact: 15000,
             growthRate: 8.2,
+            previousPeriodTotal: 82,
             positiveCount: 55,
             neutralCount: 20,
             negativeCount: 10,
@@ -170,13 +113,12 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: {
-        message: 'Banco inicializado com sucesso',
+        message: 'MongoDB inicializado com sucesso',
         stats: {
-          conversations,
           metrics: await prisma.serviceMetrics.count()
         },
         environment: process.env.NODE_ENV,
-        database: process.env.DATABASE_URL?.includes('postgresql') ? 'PostgreSQL' : 'SQLite'
+        database: 'MongoDB'
       }
     })
     

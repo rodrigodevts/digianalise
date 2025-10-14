@@ -6,13 +6,13 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 // Representa uma conversa completa entre cidadão e sistema
 model Conversation {
-  id            String                 @id @default(uuid())
+  id            String                 @id @default(auto()) @map("_id") @db.ObjectId
   ticketId      String                 @unique // ID do atendimento no sistema de origem
   phoneNumber   String                 // Número anonimizado (****-6758)
   startedAt     DateTime
@@ -25,15 +25,12 @@ model Conversation {
 
   messages      Message[]
   analysis      ConversationAnalysis?
-
-  @@index([ticketId])
-  @@index([phoneNumber])
 }
 
 // Mensagens individuais dentro de uma conversa
 model Message {
-  id             String       @id @default(uuid())
-  conversationId String
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId String       @db.ObjectId
   externalId     String       // ID original da mensagem no JSON
   messageId      String?      // wamid ou uuid do WhatsApp
   sender         String       // "user" | "bot" | "agent"
@@ -46,15 +43,12 @@ model Message {
   createdAt      DateTime     @default(now())
 
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-
-  @@index([conversationId])
-  @@index([externalId])
 }
 
 // Análise completa feita pela IA sobre a conversa
 model ConversationAnalysis {
-  id                    String       @id @default(uuid())
-  conversationId        String       @unique
+  id                    String       @id @default(auto()) @map("_id") @db.ObjectId
+  conversationId        String       @unique @db.ObjectId
   
   // Classificações principais
   primaryService        String       // IPTU, Certidão, Dívida Ativa, Alvará, etc.
@@ -92,7 +86,7 @@ model ConversationAnalysis {
 
 // Métricas agregadas pré-calculadas por serviço
 model ServiceMetrics {
-  id                    String   @id @default(uuid())
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
   service               String   
   date                  DateTime
   
@@ -130,12 +124,11 @@ model ServiceMetrics {
   updatedAt             DateTime @updatedAt
 
   @@unique([service, date])
-  @@index([service, date])
 }
 
 // Alertas automáticos gerados pelo sistema
 model Alert {
-  id                String   @id @default(uuid())
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   
   // Classificação
   severity          String   // critical, urgent, monitor
@@ -143,7 +136,7 @@ model Alert {
   status            String   @default("active") // active, acknowledged, resolved
   
   // Contexto
-  conversationId    String?
+  conversationId    String?  @db.ObjectId
   service           String?
   
   // Conteúdo
@@ -161,8 +154,4 @@ model Alert {
   resolvedAt        DateTime?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-
-  @@index([severity, status])
-  @@index([type])
-  @@index([service])
 }
