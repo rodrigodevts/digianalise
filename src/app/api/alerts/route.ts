@@ -48,7 +48,12 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Erro ao buscar alertas:', error)
     return NextResponse.json(
-      { success: false, error: 'Erro interno do servidor' },
+      { 
+        success: false, 
+        error: 'Erro interno do servidor',
+        details: error instanceof Error ? error.message : String(error),
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     )
   }
