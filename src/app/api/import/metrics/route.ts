@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
     // Calcular métricas para cada serviço
     const metrics = []
 
-    for (const [service, serviceAnalyses] of serviceGroups) {
+    for (const [service, serviceAnalyses] of Array.from(serviceGroups.entries())) {
       const total = serviceAnalyses.length
       const resolved = serviceAnalyses.filter(a => a.wasResolved).length
       const abandoned = total - resolved
