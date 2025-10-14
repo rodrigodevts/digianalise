@@ -14,45 +14,52 @@ export async function GET() {
     
     // Aplicar migrações/push do schema
     try {
-      // Para PostgreSQL em produção, usar migrate
-      if (process.env.DATABASE_URL?.includes('postgresql')) {
-        console.log('Detectado PostgreSQL, aplicando schema...')
-        await prisma.$executeRaw`
-          CREATE TABLE IF NOT EXISTS "Conversation" (
-            "id" TEXT NOT NULL PRIMARY KEY,
-            "ticketId" TEXT NOT NULL,
-            "phoneNumber" TEXT NOT NULL,
-            "startedAt" DATETIME NOT NULL,
-            "endedAt" DATETIME,
-            "duration" INTEGER NOT NULL DEFAULT 0,
-            "messageCount" INTEGER NOT NULL DEFAULT 0,
-            "status" TEXT NOT NULL DEFAULT 'active',
-            "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-          );
-        `
+      // Para Turso/PostgreSQL em produção, usar migrate
+      if (process.env.DATABASE_URL?.includes('postgresql') || process.env.DATABASE_URL?.startsWith('libsql://')) {
+        console.log('Detectado Turso/PostgreSQL, aplicando schema...')
+        console.log('Aplicando schema para banco remoto...')
         
+        // Criar tabelas diretamente no banco
         await prisma.$executeRaw`
-          CREATE TABLE IF NOT EXISTS "ServiceMetrics" (
-            "id" TEXT NOT NULL PRIMARY KEY,
-            "service" TEXT NOT NULL UNIQUE,
-            "totalConversations" INTEGER NOT NULL DEFAULT 0,
-            "resolvedConversations" INTEGER NOT NULL DEFAULT 0,
-            "abandonedConversations" INTEGER NOT NULL DEFAULT 0,
-            "averageSatisfaction" REAL NOT NULL DEFAULT 0,
-            "economicImpact" REAL NOT NULL DEFAULT 0,
-            "growthRate" REAL NOT NULL DEFAULT 0,
-            "positiveCount" INTEGER NOT NULL DEFAULT 0,
-            "neutralCount" INTEGER NOT NULL DEFAULT 0,
-            "negativeCount" INTEGER NOT NULL DEFAULT 0,
-            "frustratedCount" INTEGER NOT NULL DEFAULT 0,
-            "funnelMetrics" TEXT,
-            "topQuestions" TEXT,
-            "topProblems" TEXT,
-            "userProfiles" TEXT,
-            "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-          );
+            CREATE TABLE IF NOT EXISTS "Conversation" (
+              "id" TEXT NOT NULL PRIMARY KEY,
+              "ticketId" TEXT NOT NULL UNIQUE,
+              "phoneNumber" TEXT NOT NULL,
+              "startedAt" DATETIME NOT NULL,
+              "endedAt" DATETIME,
+              "duration" INTEGER NOT NULL DEFAULT 0,
+              "messageCount" INTEGER NOT NULL DEFAULT 0,
+              "status" TEXT NOT NULL DEFAULT 'active',
+              "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+            );
+        `
+          
+        await prisma.$executeRaw`
+            CREATE TABLE IF NOT EXISTS "ServiceMetrics" (
+              "id" TEXT NOT NULL PRIMARY KEY,
+              "service" TEXT NOT NULL,
+              "date" DATETIME NOT NULL,
+              "totalConversations" INTEGER NOT NULL DEFAULT 0,
+              "resolvedConversations" INTEGER NOT NULL DEFAULT 0,
+              "abandonedConversations" INTEGER NOT NULL DEFAULT 0,
+              "growthRate" REAL NOT NULL DEFAULT 0,
+              "previousPeriodTotal" INTEGER NOT NULL DEFAULT 0,
+              "averageSatisfaction" REAL NOT NULL DEFAULT 0,
+              "positiveCount" INTEGER NOT NULL DEFAULT 0,
+              "neutralCount" INTEGER NOT NULL DEFAULT 0,
+              "negativeCount" INTEGER NOT NULL DEFAULT 0,
+              "frustratedCount" INTEGER NOT NULL DEFAULT 0,
+              "topQuestions" TEXT,
+              "topProblems" TEXT,
+              "topOpportunities" TEXT,
+              "userProfiles" TEXT,
+              "funnelMetrics" TEXT,
+              "economicImpact" REAL NOT NULL DEFAULT 0,
+              "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              UNIQUE("service", "date")
+            );
         `
       } else {
         // Para SQLite, usar db push

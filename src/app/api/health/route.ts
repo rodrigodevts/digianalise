@@ -15,11 +15,16 @@ export async function GET() {
     const dbTime = Date.now() - start
     
     // Verificar se tabelas existem
-    const tables = await prisma.$queryRaw`
-      SELECT name FROM sqlite_master WHERE type='table' 
-      UNION ALL 
-      SELECT tablename as name FROM pg_tables WHERE schemaname='public'
-    `
+    let tables: any[] = []
+    try {
+      if (process.env.DATABASE_URL?.includes('postgresql')) {
+        tables = await prisma.$queryRaw`SELECT tablename as name FROM pg_tables WHERE schemaname='public'`
+      } else {
+        tables = await prisma.$queryRaw`SELECT name FROM sqlite_master WHERE type='table'`
+      }
+    } catch (tableError) {
+      console.log('Erro ao consultar tabelas:', tableError)
+    }
     
     return NextResponse.json({
       success: true,
