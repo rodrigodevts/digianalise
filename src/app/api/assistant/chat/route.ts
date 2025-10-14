@@ -121,7 +121,7 @@ async function getMetricsContext() {
   }
 }
 
-function buildAssistantPrompt(userMessage: string, context: any): string {
+function buildAssistantPrompt(userMessage: string, context: any, wantsRecommendations: boolean = false): string {
   return `Você é um assistente especializado em análise de dados para tomada de decisão na SEFIN (Secretaria de Finanças) de Vitória da Conquista.
 
 CONTEXTO ATUAL DOS DADOS:
@@ -178,14 +178,23 @@ ${
 PERGUNTA DO USUÁRIO: ${userMessage}
 
 INSTRUÇÕES:
-1. Analise a pergunta no contexto dos dados fornecidos
-2. Forneça insights baseados nos dados atuais
-3. Sugira ações específicas para melhorar o atendimento
-4. Use linguagem clara e objetiva para gestores
-5. Destaque problemas críticos quando relevante
-6. Ofereça recomendações práticas
+1. RESPONDA APENAS O QUE FOI PERGUNTADO - seja direto e específico
+2. Use os dados fornecidos para responder com precisão 
+3. NÃO adicione informações extras, problemas gerais ou contexto não solicitado
+4. Seja conciso e objetivo, focando exclusivamente na pergunta
+5. Use linguagem clara para gestores
+6. Se não houver dados suficientes, informe que precisa de mais informações
 
-Responda de forma estruturada e focada em ação. Se os dados não estiverem disponíveis, informe e sugira próximos passos.`;
+IMPORTANTE: 
+- Responda SOMENTE a pergunta feita
+- NÃO adicione informações extras, problemas gerais ou contexto não solicitado
+${wantsRecommendations ? 
+  '- O usuário QUER recomendações: forneça sugestões específicas e acionáveis para resolver o problema identificado' : 
+  '- AO FINAL da resposta, pergunte: "Gostaria de recomendações e ações imediatas sobre este tópico?"'
+}
+- Seja conciso e direto
+
+Responda exclusivamente a pergunta do usuário de forma objetiva.`;
 }
 
 export async function POST(request: NextRequest) {
@@ -230,11 +239,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Detectar se o usuário quer recomendações
+    const wantsRecommendations = /\b(sim|yes|quero|gostaria|recomenda|sugest|ação|melhor)/i.test(message.toLowerCase())
+
     // Buscar contexto dos dados
     const context = await getMetricsContext();
 
     // Construir prompt
-    const prompt = buildAssistantPrompt(message, context);
+    const prompt = buildAssistantPrompt(message, context, wantsRecommendations);
 
     // Chamar IA
     const result = await model.generateContent(prompt);
