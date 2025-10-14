@@ -77,6 +77,7 @@ export async function GET() {
           {
             id: '1',
             service: 'IPTU',
+            date: new Date(),
             totalConversations: 150,
             resolvedConversations: 130,
             abandonedConversations: 20,
@@ -103,6 +104,10 @@ export async function GET() {
               { problem: "Sistema lento", count: 8 },
               { problem: "Erro ao gerar boleto", count: 5 }
             ]),
+            topOpportunities: JSON.stringify([
+              { opportunity: "Automatizar consultas", impact: "Alto" },
+              { opportunity: "Melhorar UX do pagamento", impact: "Médio" }
+            ]),
             userProfiles: JSON.stringify({
               "tranquilo": 85,
               "confuso": 35,
@@ -113,6 +118,7 @@ export async function GET() {
           {
             id: '2',
             service: 'CERTIDAO_NEGATIVA',
+            date: new Date(),
             totalConversations: 89,
             resolvedConversations: 75,
             abandonedConversations: 14,
@@ -136,6 +142,10 @@ export async function GET() {
             ]),
             topProblems: JSON.stringify([
               { problem: "Demora na emissão", count: 6 }
+            ]),
+            topOpportunities: JSON.stringify([
+              { opportunity: "Portal self-service", impact: "Alto" },
+              { opportunity: "Notificações automáticas", impact: "Médio" }
             ]),
             userProfiles: JSON.stringify({
               "tranquilo": 50,
