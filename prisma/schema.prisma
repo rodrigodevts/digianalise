@@ -155,3 +155,35 @@ model Alert {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
+
+// Log de importações para auditoria
+model ImportLog {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // Contexto da operação
+  operation String // conversations, analyze, metrics, reset
+  status    String // started, completed, failed
+  
+  // Resultados
+  totalItems    Int   @default(0)
+  processedItems Int  @default(0)
+  errorCount    Int   @default(0)
+  
+  // Detalhes
+  fileName      String?
+  fileSize      Int?    // em bytes
+  processingTime Int?   // em milissegundos
+  
+  // Logs de erro
+  errors        String? // JSON array de erros
+  
+  // Metadados
+  userAgent     String?
+  ipAddress     String?
+  
+  // Timestamps
+  startedAt     DateTime @default(now())
+  completedAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

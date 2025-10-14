@@ -1,6 +1,7 @@
 'use client'
 
 import { Sidebar } from './sidebar'
+import { AssistantPopup } from '../assistant-popup'
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -15,6 +16,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {children}
         </div>
       </main>
+      <AssistantPopup />
     </div>
   )
 }

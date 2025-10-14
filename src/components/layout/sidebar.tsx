@@ -4,10 +4,12 @@ import { cn } from "@/lib/utils";
 import {
   AlertTriangle,
   BarChart3,
+  Bot,
   Home,
   MessageSquare,
   PieChart,
   Target,
+  Upload,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,6 +46,16 @@ const navigation = [
     href: "/dashboard/conversations",
     icon: MessageSquare,
   },
+  {
+    name: "Assistente IA",
+    href: "/dashboard/assistant",
+    icon: Bot,
+  },
+  {
+    name: "Importar Dados",
+    href: "/dashboard/import",
+    icon: Upload,
+  },
 ];
 
 export function Sidebar() {
@@ -74,6 +86,7 @@ export function Sidebar() {
                   width={28}
                   height={28}
                   className="rounded-full"
+                  style={{ width: "auto", height: "auto" }}
                 />
               </div>
               <div className="text-center flex-1">

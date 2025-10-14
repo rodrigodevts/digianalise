@@ -1,0 +1,64 @@
+[
+  {
+    "messages": [
+      {
+        "id": "test1",
+        "messageId": "wamid.test123",
+        "fromMe": false,
+        "body": "Olá, gostaria de saber sobre o IPTU",
+        "mediaType": "chat",
+        "timestamp": "2024-01-01T10:00:00Z",
+        "createdAt": "2024-01-01T10:00:00Z",
+        "sendType": null,
+        "userId": null,
+        "contact": {
+          "id": 1,
+          "name": "João Silva",
+          "number": "554712345678",
+          "channel": "whatsapp"
+        },
+        "ticketId": 1001,
+        "contactId": 1
+      },
+      {
+        "id": "test2",
+        "messageId": "wamid.test124",
+        "fromMe": true,
+        "body": "Olá! Posso ajudá-lo com informações sobre o IPTU. O que gostaria de saber?",
+        "mediaType": "chat",
+        "timestamp": "2024-01-01T10:01:00Z",
+        "createdAt": "2024-01-01T10:01:00Z",
+        "sendType": "bot",
+        "userId": null,
+        "ticketId": 1001,
+        "contactId": 1
+      },
+      {
+        "id": "test3",
+        "messageId": "wamid.test125",
+        "fromMe": false,
+        "body": "Preciso saber como pagar o IPTU em atraso",
+        "mediaType": "chat",
+        "timestamp": "2024-01-01T10:02:00Z",
+        "createdAt": "2024-01-01T10:02:00Z",
+        "sendType": null,
+        "userId": null,
+        "ticketId": 1001,
+        "contactId": 1
+      },
+      {
+        "id": "test4",
+        "messageId": "wamid.test126",
+        "fromMe": true,
+        "body": "Para pagar o IPTU em atraso, você pode acessar o Portal da Prefeitura ou comparecer à SEFIN com o número do seu imóvel.",
+        "mediaType": "chat",
+        "timestamp": "2024-01-01T10:03:00Z",
+        "createdAt": "2024-01-01T10:03:00Z",
+        "sendType": "bot",
+        "userId": null,
+        "ticketId": 1001,
+        "contactId": 1
+      }
+    ]
+  }
+]
