@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   BarChart3,
   Bot,
+  Edit3,
   Home,
   MessageSquare,
   PieChart,
@@ -50,6 +51,11 @@ const navigation = [
     name: "Assistente IA",
     href: "/dashboard/assistant",
     icon: Bot,
+  },
+  {
+    name: "Curadoria Chatbot",
+    href: "/dashboard/curadoria",
+    icon: Edit3,
   },
   {
     name: "Importar Dados",
