@@ -1,7 +1,7 @@
 {
-  "name": "dashboard-pmvc",
+  "name": "digianalise",
   "version": "1.0.0",
-  "description": "Sistema de análise inteligente de conversas para SEFIN Vitória da Conquista",
+  "description": "Sistema de análise inteligente de conversas para Secretarias de Finanças municipais",
   "private": true,
   "scripts": {
     "dev": "next dev",

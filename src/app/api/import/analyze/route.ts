@@ -15,7 +15,7 @@ function buildPrompt(messages: any[]): string {
     .map(m => `[${m.sender === 'user' ? 'CIDADÃO' : 'SISTEMA'}]: ${m.content}`)
     .join('\n')
 
-  return `Analise esta conversa entre um cidadão e o sistema de atendimento da SEFIN (Secretaria de Finanças) de Vitória da Conquista.
+  return `Analise esta conversa entre um cidadão e o sistema de atendimento da Secretaria de Finanças municipal.
 
 CONVERSA:
 ${conversationText}

@@ -88,7 +88,7 @@ export function Sidebar() {
               <div className="flex-shrink-0">
                 <Image
                   src="/brasao_pmvc.png"
-                  alt="Brasão PMVC"
+                  alt="Brasão Município"
                   width={28}
                   height={28}
                   className="rounded-full"
@@ -96,8 +96,8 @@ export function Sidebar() {
                 />
               </div>
               <div className="text-center flex-1">
-                <p className="text-sm font-semibold text-gray-800">PMVC</p>
-                <p className="text-xs text-gray-600">Vitória da Conquista</p>
+                <p className="text-sm font-semibold text-gray-800">Prefeitura</p>
+                <p className="text-xs text-gray-600">Secretaria de Finanças</p>
               </div>
             </div>
           </div>

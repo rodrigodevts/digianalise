@@ -156,7 +156,7 @@ export default function OverviewPage() {
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Visão Geral</h1>
             <p className="text-gray-600 mt-2">
-              Análise inteligente de conversas com cidadãos da SEFIN
+              Análise inteligente de conversas com cidadãos
             </p>
           </div>
           <div className="flex items-center space-x-2">

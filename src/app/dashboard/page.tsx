@@ -34,7 +34,7 @@ export default function DashboardHomePage() {
                 <div className="flex items-center space-x-2">
                   <Sparkles className="h-8 w-8 text-yellow-300" />
                   <Badge className="bg-white/20 text-white border-white/30">
-                    SEFIN Analytics v2.0
+                    DigiAnalise v2.0
                   </Badge>
                 </div>
 
@@ -48,8 +48,8 @@ export default function DashboardHomePage() {
 
                   <p className="text-lg lg:text-xl text-blue-100 leading-relaxed">
                     Transforme conversas em insights. Monitore satisfação em
-                    tempo real. Otimize processos com dados inteligentes da
-                    Prefeitura de Vitória da Conquista.
+                    tempo real. Otimize processos com dados inteligentes de
+                    atendimento ao cidadão.
                   </p>
                 </div>
 
@@ -179,7 +179,7 @@ export default function DashboardHomePage() {
                     Serviços
                   </h3>
                   <p className="text-emerald-700 text-sm">
-                    Performance detalhada por serviço da SEFIN
+                    Performance detalhada por serviço prestado
                   </p>
                 </CardContent>
               </Card>
@@ -494,7 +494,7 @@ export default function DashboardHomePage() {
               <p className="font-semibold text-gray-900">
                 Prefeitura Municipal
               </p>
-              <p className="text-sm text-gray-600">Vitória da Conquista - BA</p>
+              <p className="text-sm text-gray-600">Secretaria de Finanças</p>
             </div>
           </div>
 

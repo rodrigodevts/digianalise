@@ -126,7 +126,7 @@ function buildAssistantPrompt(
   context: any,
   wantsRecommendations: boolean = false
 ): string {
-  return `Você é um assistente especializado em análise de dados para tomada de decisão na SEFIN (Secretaria de Finanças) de Vitória da Conquista.
+  return `Você é um assistente especializado em análise de dados para tomada de decisão em Secretarias de Finanças municipais.
 
 CONTEXTO ATUAL DOS DADOS:
 
