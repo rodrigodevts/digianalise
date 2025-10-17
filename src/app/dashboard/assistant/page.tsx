@@ -314,7 +314,7 @@ export default function AssistantPage() {
             </Button>
           </div>
           <p className="text-xs text-gray-500 mt-2 text-center">
-            Pressione Enter para enviar • Powered by IA Generativa
+            Pressione Enter para enviar
           </p>
         </div>
       </Card>
