@@ -1,4 +1,4 @@
-# 🚀 Deploy DigiAnalise - Guia Completo
+# 🚀 Deploy Analytics IA - Guia Completo
 
 ## 📋 Pré-requisitos para Deploy
 
@@ -173,4 +173,4 @@ curl https://seu-app.vercel.app/api/metrics
 # 4. Deploy automático! 🚀
 ```
 
-**URL sugerida**: `https://digianalise-pmvc.vercel.app`
+**URL sugerida**: `https://analytics-ia.vercel.app`

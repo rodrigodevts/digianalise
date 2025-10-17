@@ -34,7 +34,7 @@ export default function DashboardHomePage() {
                 <div className="flex items-center space-x-2">
                   <Sparkles className="h-8 w-8 text-yellow-300" />
                   <Badge className="bg-white/20 text-white border-white/30">
-                    DigiAnalise v2.0
+                    Analytics IA v2.0
                   </Badge>
                 </div>
 
@@ -479,29 +479,13 @@ export default function DashboardHomePage() {
         </div>
       </div>
 
-      {/* Footer with Partner Logos */}
+      {/* Footer */}
       <div className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm">
-        <div className="flex items-center justify-between flex-wrap gap-6">
-          <div className="flex items-center space-x-4">
-            <Image
-              src="/brasao_pmvc.png"
-              alt="Brasão PMVC"
-              width={48}
-              height={48}
-              className="rounded"
-            />
-            <div>
-              <p className="font-semibold text-gray-900">
-                Prefeitura Municipal
-              </p>
-              <p className="text-sm text-gray-600">Secretaria de Finanças</p>
-            </div>
-          </div>
-
-          <div className="flex items-center space-x-1">
-            <p className="text-sm text-gray-600">Desenvolvido por</p>
-            <span className="text-sm font-medium text-gray-700">Digigov</span>
-          </div>
+        <div className="text-center">
+          <p className="font-semibold text-gray-900">
+            Plataforma Analytics IA
+          </p>
+          <p className="text-sm text-gray-600 mt-1">Sistema de análise inteligente para atendimento ao cidadão</p>
         </div>
       </div>
     </div>

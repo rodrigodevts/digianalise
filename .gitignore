@@ -87,6 +87,4 @@ yarn.lock
 *.orig
 
 # Custom data files
-data/backup/
-data/exports/
 scripts/processed/

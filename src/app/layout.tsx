@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'DigiAnalise - Atendimento Inteligente',
+  title: 'Analytics IA - Atendimento Inteligente',
   description: 'Plataforma inteligente de análise de atendimento ao cidadão',
   icons: {
     icon: '/favicon.png',

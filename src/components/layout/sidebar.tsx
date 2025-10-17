@@ -12,7 +12,6 @@ import {
   Target,
   Upload,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -75,7 +74,7 @@ export function Sidebar() {
           {/* Application Title - Centralizado */}
           <div className="text-center">
             <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-[#0E7FC0] via-[#009DDA] to-[#32B1E4] bg-clip-text text-transparent">
-              DigiAnalise
+              Analytics IA
             </h1>
             <p className="text-xs text-gray-500 mt-1">
               Atendimento Inteligente
@@ -84,19 +83,9 @@ export function Sidebar() {
 
           {/* Prefecture Info - Card Melhorado */}
           <div className="bg-white rounded-xl p-4 w-full border-2 border-gray-100 shadow-sm">
-            <div className="flex items-center justify-center space-x-3">
-              <div className="flex-shrink-0">
-                <Image
-                  src="/brasao_pmvc.png"
-                  alt="Brasão Município"
-                  width={28}
-                  height={28}
-                  className="rounded-full"
-                  style={{ width: "auto", height: "auto" }}
-                />
-              </div>
+            <div className="flex items-center justify-center">
               <div className="text-center flex-1">
-                <p className="text-sm font-semibold text-gray-800">Prefeitura</p>
+                <p className="text-sm font-semibold text-gray-800">Prefeitura Municipal</p>
                 <p className="text-xs text-gray-600">Secretaria de Finanças</p>
               </div>
             </div>
@@ -135,16 +124,9 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="px-4 py-4 border-t border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="flex-shrink-0">
-            <Image
-              src="/logo-padrao.svg"
-              alt="Digigov"
-              width={80}
-              height={80}
-            />
-          </div>
-          <div className="text-xs text-gray-500">
+        <div className="flex items-center justify-center">
+          <div className="text-xs text-gray-500 text-center">
+            <p className="font-semibold text-gray-700">Analytics IA</p>
             <p>Versão 1.0.0</p>
           </div>
         </div>

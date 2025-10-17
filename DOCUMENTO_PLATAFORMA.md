@@ -1,4 +1,4 @@
-# DigiAnalise - Plataforma de Analytics com IA para Serviços ao Cidadão
+# Analytics IA - Plataforma de Analytics com IA para Serviços ao Cidadão
 
 **Versão 2.0 | SEFIN - Secretaria de Finanças de Vitória da Conquista/BA**
 
@@ -6,9 +6,9 @@
 
 ## 1. VISÃO GERAL EXECUTIVA
 
-### O Que é DigiAnalise?
+### O Que é Analytics IA?
 
-DigiAnalise é uma plataforma de inteligência artificial projetada para transformar conversas não estruturadas de atendimento ao cidadão em insights estratégicos acionáveis. Através da análise automatizada de interações via chatbot, a plataforma identifica padrões de satisfação, frustrações, oportunidades de melhoria e gera alertas proativos para gestores públicos.
+Analytics IA é uma plataforma de inteligência artificial projetada para transformar conversas não estruturadas de atendimento ao cidadão em insights estratégicos acionáveis. Através da análise automatizada de interações via chatbot, a plataforma identifica padrões de satisfação, frustrações, oportunidades de melhoria e gera alertas proativos para gestores públicos.
 
 ### Problema que Resolve
 
@@ -19,7 +19,7 @@ Secretarias de Finanças e órgãos públicos enfrentam diariamente:
 - **Ausência de dados concretos** para tomada de decisões estratégicas
 - **Desconhecimento** de gargalos nos processos de atendimento
 
-### Solução DigiAnalise
+### Solução Analytics IA
 
 Nossa plataforma oferece:
 - **Análise automática** de 100% das conversas usando IA generativa (Google Gemini)
@@ -50,7 +50,7 @@ Capacitar gestores públicos com dados precisos e insights baseados em IA para:
 
 ### Contexto de Desenvolvimento
 
-A DigiAnalise representa a aplicação prática de inteligência artificial no setor público brasileiro, com foco inicial nos serviços financeiros municipais da cidade de Vitória da Conquista, Bahia.
+A Analytics IA representa a aplicação prática de inteligência artificial no setor público brasileiro, com foco inicial nos serviços financeiros municipais da cidade de Vitória da Conquista, Bahia.
 
 ---
 
@@ -228,7 +228,7 @@ A DigiAnalise representa a aplicação prática de inteligência artificial no s
 
 ### 4.1 Arquitetura de IA
 
-A DigiAnalise utiliza o **Google Gemini 2.0** como motor de inteligência artificial, representando o estado da arte em processamento de linguagem natural (NLP) e análise semântica.
+A Analytics IA utiliza o **Google Gemini 2.0** como motor de inteligência artificial, representando o estado da arte em processamento de linguagem natural (NLP) e análise semântica.
 
 #### **Modelos Utilizados**:
 1. **Gemini 2.0 Flash Exp**: Análise profunda de conversas
@@ -723,7 +723,7 @@ NODE_ENV             # Ambiente (dev/prod)
 
 **Caso de Uso**: Reduzir taxa de abandono no serviço de Certidão Negativa
 
-**Como a DigiAnalise Ajuda**:
+**Como a Analytics IA Ajuda**:
 1. **Identificação**: Dashboard mostra 32% de abandono no serviço
 2. **Diagnóstico**: Funil aponta estágio "Solicitação" como gargalo
 3. **Causa Raiz**: Top problemas revelam "documentação confusa"
@@ -739,7 +739,7 @@ NODE_ENV             # Ambiente (dev/prod)
 
 **Caso de Uso**: Priorizar atendimento humano para casos críticos
 
-**Como a DigiAnalise Ajuda**:
+**Como a Analytics IA Ajuda**:
 1. **Alertas Críticos**: 12 cidadãos com frustração ≥9/10
 2. **Perfil Identificado**: 8 são "Revoltados" (risco de escalação)
 3. **Contexto Fornecido**: Frases-chave e histórico da conversa
@@ -755,7 +755,7 @@ NODE_ENV             # Ambiente (dev/prod)
 
 **Caso de Uso**: Otimizar fluxo do chatbot para reduzir carga no servidor
 
-**Como a DigiAnalise Ajuda**:
+**Como a Analytics IA Ajuda**:
 1. **Curadoria**: Identifica 23 mensagens do bot com alta taxa de abandono
 2. **Análise**: Mensagens vagas geram 4-5 interações extras
 3. **Sugestão**: Reformular mensagens para clareza
@@ -771,7 +771,7 @@ NODE_ENV             # Ambiente (dev/prod)
 
 **Caso de Uso**: Demonstrar conformidade com LGPD em relatório de auditoria
 
-**Como a DigiAnalise Ajuda**:
+**Como a Analytics IA Ajuda**:
 1. **Anonimização Automática**: Todos os dados pessoais mascarados
 2. **Logs de Processamento**: Rastreabilidade completa
 3. **Política de Retenção**: Nenhum dado sensível armazenado
@@ -787,7 +787,7 @@ NODE_ENV             # Ambiente (dev/prod)
 
 **Caso de Uso**: Justificar investimento em automação para secretaria
 
-**Como a DigiAnalise Ajuda**:
+**Como a Analytics IA Ajuda**:
 1. **Dashboard de ROI**: R$ 45.680 economizados em 3 meses
 2. **Taxa de Resolução**: 78% (acima da meta de 75%)
 3. **Satisfação**: CSAT médio de 4.4/5
@@ -920,7 +920,7 @@ CSAT = (Positivos×5 + Neutros×3 + Negativos×1 + Frustrados×0) / Total
 
 ## 10. CONSIDERAÇÕES FINAIS
 
-### Por que DigiAnalise é a Escolha Certa?
+### Por que Analytics IA é a Escolha Certa?
 
 1. **Tecnologia de Ponta**: Google Gemini 2.0, Next.js 14, arquitetura moderna
 2. **ROI Comprovado**: Economia mensurável desde o primeiro mês
@@ -953,7 +953,7 @@ CSAT = (Positivos×5 + Neutros×3 + Negativos×1 + Frustrados×0) / Total
 
 ## CONTATO E INFORMAÇÕES ADICIONAIS
 
-**Projeto**: DigiAnalise v2.0
+**Projeto**: Analytics IA v2.0
 **Organização**: SEFIN Vitória da Conquista/BA
 **Parceiro Financeiro**: Banco do Nordeste do Brasil (BNB)
 
